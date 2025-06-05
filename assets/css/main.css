@@ -216,12 +216,12 @@ h6 {
 }
 
 .header .logo {
-  line-height: 1;
+  line-height: 5;
 }
 
 .header .logo img {
-  max-height: 36px;
-  margin-right: 8px;
+  max-height: auto;
+  margin-right: auto;
 }
 
 .header .logo h1 {
@@ -1114,7 +1114,7 @@ section,
   background-color: var(--surface-color);
   color: var(--heading-color);
   border: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
-  padding: 15px 20px;
+  padding: 10px 10px;
   transition: 0.3s;
   border-radius: 0;
   display: flex;

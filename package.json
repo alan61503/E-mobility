@@ -1,9 +1,11 @@
 {
   "name": "e-mobility",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -16,11 +18,20 @@
     "url": "https://github.com/alan61503/E-mobility/issues"
   },
   "homepage": "https://github.com/alan61503/E-mobility#readme",
-  "description": "",
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.17.0",
     "mongoose": "^8.15.1"
+  },
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   }
 }
