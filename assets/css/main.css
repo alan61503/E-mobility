@@ -1032,7 +1032,7 @@ section,
 # Services Section
 --------------------------------------------------------------*/
 .services .img {
-  border-radius: 8px;
+  border-radius: 5px;
   overflow: hidden;
 }
 
@@ -1212,7 +1212,7 @@ section,
   cursor: pointer;
   display: inline-block;
   padding: 0;
-  font-size: 18px;
+  font-size: 25px;
   font-weight: 500;
   margin: 0 10px;
   line-height: 1;
@@ -1260,7 +1260,7 @@ section,
 }
 
 .portfolio .portfolio-content .portfolio-info h4 {
-  font-size: 14px;
+  font-size: 20px;
   padding: 5px 10px;
   font-weight: 400;
   color: #ffffff;
@@ -1387,9 +1387,11 @@ section,
   background-color: var(--surface-color);
   box-shadow: 0px 0px 20px rgba(193, 152, 152, 0.1);
   padding: 24px 0 30px 0;
+  align-items: center;
 }
 
 .contact .info-item i {
+  align-self: center;
   font-size: 20px;
   color: var(--accent-color);
   width: 56px;
