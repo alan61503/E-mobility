@@ -193,6 +193,39 @@
                 margin: 0 1rem;
             }
         }
+
+        /* Add new styles for error messages and loading state */
+        .error-message {
+            color: #ff4444;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .login-form button.loading {
+            background-color: var(--accent-hover);
+            cursor: not-allowed;
+            position: relative;
+        }
+
+        .login-form button.loading::after {
+            content: "";
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: translateY(-50%) rotate(0deg); }
+            100% { transform: translateY(-50%) rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -202,32 +235,34 @@
             <p>Welcome back! Please login to your account.</p>
         </div>
 
-        <form class="login-form">
+        <form class="login-form" id="loginForm">
             <div class="input-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" placeholder="Enter your email" required>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <div class="error-message" id="emailError"></div>
             </div>
 
             <div class="input-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Enter your password" required>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <div class="error-message" id="passwordError"></div>
             </div>
 
             <div class="forgot-password">
                 <a href="#">Forgot password?</a>
             </div>
 
-            <button type="submit">Login</button>
+            <button type="submit" id="loginButton">Login</button>
+            <div class="error-message" id="generalError"></div>
 
             <div class="divider">or continue with</div>
 
             <div class="social-login">
-                <div class="social-btn">
+                <div class="social-btn" id="googleLogin">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                         <path d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z"/>
                     </svg>
                 </div>
-              
             </div>
 
             <div class="signup-link">
@@ -235,5 +270,96 @@
             </div>
         </form>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const signupForm = document.getElementById('signupForm');
+            const signupButton = document.getElementById('signupButton');
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const nameError = document.getElementById('nameError');
+            const emailError = document.getElementById('emailError');
+            const passwordError = document.getElementById('passwordError');
+            const confirmPasswordError = document.getElementById('confirmPasswordError');
+            const generalError = document.getElementById('generalError');
+
+            async function handleSubmit(e) {
+                e.preventDefault();
+                
+                // Reset errors
+                [nameError, emailError, passwordError, confirmPasswordError, generalError].forEach(el => {
+                    el.style.display = 'none';
+                });
+
+                const name = nameInput.value.trim();
+                const email = emailInput.value.trim();
+                const password = passwordInput.value.trim();
+                const confirmPassword = confirmPasswordInput.value.trim();
+
+                // Validation
+                let isValid = true;
+
+                if (name.length < 2) {
+                    nameError.textContent = 'Name must be at least 2 characters';
+                    nameError.style.display = 'block';
+                    isValid = false;
+                }
+
+                if (!email.includes('@')) {
+                    emailError.textContent = 'Please enter a valid email';
+                    emailError.style.display = 'block';
+                    isValid = false;
+                }
+
+                if (password.length < 6) {
+                    passwordError.textContent = 'Password must be at least 6 characters';
+                    passwordError.style.display = 'block';
+                    isValid = false;
+                }
+
+                if (password !== confirmPassword) {
+                    confirmPasswordError.textContent = 'Passwords do not match';
+                    confirmPasswordError.style.display = 'block';
+                    isValid = false;
+                }
+
+                if (!isValid) return;
+
+                // Registration request
+                signupButton.classList.add('loading');
+                signupButton.disabled = true;
+
+                try {
+                    const response = await fetch('/api/auth/register', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name, email, password })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        localStorage.setItem('token', data.token);
+                        localStorage.setItem('userEmail', data.user.email);
+                        localStorage.setItem('userName', data.user.name);
+                        window.location.href = '/dashboard';
+                    } else {
+                        generalError.textContent = data.message || 'Registration failed';
+                        generalError.style.display = 'block';
+                    }
+                } catch (error) {
+                    generalError.textContent = 'Network error. Please try again.';
+                    generalError.style.display = 'block';
+                } finally {
+                    signupButton.classList.remove('loading');
+                    signupButton.disabled = false;
+                }
+            }
+
+            signupForm.addEventListener('submit', handleSubmit);
+        });
+    </script>
 </body>
 </html>

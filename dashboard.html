@@ -3,491 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EV Monitoring Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Dashboard</title>
     <style>
-        :root {
-            --primary-bg: #121212;
-            --secondary-bg: #1e1e1e;
-            --card-bg: #252525;
-            --text-primary: #ffffff;
-            --text-secondary: #b0b0b0;
-            --accent: #ff7b25;
-            --accent-hover: #ff944d;
-            --border-radius: 8px;
-            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-
-        * {
+        body {
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
         }
-
-        body {
-            background-color: var(--primary-bg);
-            color: var(--text-primary);
-            min-height: 100vh;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
         }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        /* Profile Section */
-        .profile-section {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 30px;
-            align-items: center;
-        }
-
-        .profile-image {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--accent);
-        }
-
-        .profile-info {
-            flex-grow: 1;
-        }
-
-        .profile-name {
-            font-size: 1.3rem;
-            margin-bottom: 5px;
-        }
-
-        .profile-email {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-        }
-
-        .edit-profile-btn {
-            background-color: transparent;
-            color: var(--accent);
-            border: 1px solid var(--accent);
-            padding: 5px 15px;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .edit-profile-btn:hover {
-            background-color: rgba(255, 123, 37, 0.1);
-        }
-
-        /* Vehicles Section */
-        .section-header {
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
         }
-
-        .section-title {
-            font-size: 1.5rem;
+        .user-info {
+            display: flex;
+            align-items: center;
         }
-
-        .add-vehicle-btn {
-            background-color: var(--accent);
+        .logout-btn {
+            background: #ff6b35;
             color: white;
             border: none;
-            padding: 8px 15px;
-            border-radius: var(--border-radius);
+            padding: 8px 16px;
+            border-radius: 4px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            transition: background-color 0.3s;
-        }
-
-        .add-vehicle-btn:hover {
-            background-color: var(--accent-hover);
-        }
-
-        .add-vehicle-btn i {
-            margin-right: 5px;
-        }
-
-        .vehicles-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 15px;
-        }
-
-        .vehicle-card {
-            background-color: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 15px;
-            box-shadow: var(--box-shadow);
-            position: relative;
-        }
-
-        .vehicle-id {
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: var(--accent);
-        }
-
-        .vehicle-status {
-            font-size: 0.8rem;
-            padding: 3px 8px;
-            border-radius: 10px;
-            background-color: #333;
-            color: var(--text-primary);
-            display: inline-block;
-            margin-bottom: 15px;
-        }
-
-        .vehicle-status.online {
-            background-color: #4caf50;
-        }
-
-        .vehicle-status.offline {
-            background-color: #f44336;
-        }
-
-        .remove-vehicle-btn {
-            background-color: transparent;
-            color: #f44336;
-            border: 1px solid #f44336;
-            padding: 5px 10px;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.8rem;
-        }
-
-        .remove-vehicle-btn:hover {
-            background-color: rgba(244, 67, 54, 0.1);
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background-color: var(--card-bg);
-            border-radius: var(--border-radius);
-            width: 400px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .modal-title {
-            font-size: 1.3rem;
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            background-color: var(--secondary-bg);
-            border: 1px solid #333;
-            border-radius: var(--border-radius);
-            color: var(--text-primary);
-        }
-
-        .form-actions {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 20px;
-        }
-
-        .cancel-btn {
-            background-color: var(--secondary-bg);
-            color: var(--text-primary);
-            border: none;
-            padding: 8px 15px;
-            border-radius: var(--border-radius);
-            margin-right: 10px;
-            cursor: pointer;
-        }
-
-        .submit-btn {
-            background-color: var(--accent);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-        }
-
-        .submit-btn:hover {
-            background-color: var(--accent-hover);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Profile Section -->
-        <div class="profile-section">
-            <img src="https://via.placeholder.com/80" alt="Profile" class="profile-image">
-            <div class="profile-info">
-                <h2 class="profile-name">John Doe</h2>
-                <p class="profile-email">john.doe@example.com</p>
-                <button class="edit-profile-btn" id="editProfileBtn">
-                    <i class="fas fa-user-edit"></i> Edit Profile
-                </button>
+        <div class="header">
+            <h1>Dashboard</h1>
+            <div class="user-info">
+                <span id="userName"></span>
+                <button class="logout-btn" id="logoutButton">Logout</button>
             </div>
         </div>
-
-        <!-- Vehicles Section -->
-        <div class="vehicles-section">
-            <div class="section-header">
-                <h2 class="section-title">My Vehicles</h2>
-                <button class="add-vehicle-btn" id="addVehicleBtn">
-                    <i class="fas fa-plus"></i> Add Vehicle
-                </button>
-            </div>
-            <div class="vehicles-grid" id="vehiclesContainer">
-                <!-- Vehicle cards will be added here dynamically -->
-                <div class="vehicle-card">
-                    <div class="vehicle-id">EV-TM3-2022-001</div>
-                    <span class="vehicle-status online">Online</span>
-                    <button class="remove-vehicle-btn">
-                        <i class="fas fa-trash"></i> Remove Vehicle
-                    </button>
-                </div>
-                <div class="vehicle-card">
-                    <div class="vehicle-id">EV-NL-2021-045</div>
-                    <span class="vehicle-status offline">Offline</span>
-                    <button class="remove-vehicle-btn">
-                        <i class="fas fa-trash"></i> Remove Vehicle
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Add Vehicle Modal -->
-    <div class="modal" id="addVehicleModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Add New Vehicle</h3>
-                <button class="close-btn" id="closeAddModal">&times;</button>
-            </div>
-            <form id="addVehicleForm">
-                <div class="form-group">
-                    <label for="vehicleId">Vehicle ID</label>
-                    <input type="text" id="vehicleId" placeholder="Enter unique vehicle ID" required>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="cancel-btn" id="cancelAddVehicle">Cancel</button>
-                    <button type="submit" class="submit-btn">Add Vehicle</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Edit Profile Modal -->
-    <div class="modal" id="editProfileModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Edit Profile</h3>
-                <button class="close-btn" id="closeEditModal">&times;</button>
-            </div>
-            <form id="editProfileForm">
-                <div class="form-group">
-                    <label for="editName">Full Name</label>
-                    <input type="text" id="editName" value="John Doe" required>
-                </div>
-                <div class="form-group">
-                    <label for="editEmail">Email</label>
-                    <input type="email" id="editEmail" value="john.doe@example.com" required>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="cancel-btn" id="cancelEditProfile">Cancel</button>
-                    <button type="submit" class="submit-btn">Save Changes</button>
-                </div>
-            </form>
+        <div class="content">
+            <p>Welcome to your dashboard!</p>
         </div>
     </div>
 
     <script>
-        // Sample data - in a real app, this would come from a database
-        let vehicles = [
-            { id: "EV-TM3-2022-001", status: "online" },
-            { id: "EV-NL-2021-045", status: "offline" }
-        ];
-
-        let userProfile = {
-            name: "John Doe",
-            email: "john.doe@example.com",
-            image: "https://via.placeholder.com/80"
-        };
-
-        // DOM Elements
-        const vehiclesContainer = document.getElementById('vehiclesContainer');
-        const addVehicleBtn = document.getElementById('addVehicleBtn');
-        const addVehicleModal = document.getElementById('addVehicleModal');
-        const closeAddModal = document.getElementById('closeAddModal');
-        const cancelAddVehicle = document.getElementById('cancelAddVehicle');
-        const addVehicleForm = document.getElementById('addVehicleForm');
-        
-        const editProfileBtn = document.getElementById('editProfileBtn');
-        const editProfileModal = document.getElementById('editProfileModal');
-        const closeEditModal = document.getElementById('closeEditModal');
-        const cancelEditProfile = document.getElementById('cancelEditProfile');
-        const editProfileForm = document.getElementById('editProfileForm');
-        const editNameInput = document.getElementById('editName');
-        const editEmailInput = document.getElementById('editEmail');
-
-        // Initialize the page
-        function initPage() {
-            renderVehicles();
-            renderProfile();
-        }
-
-        // Render vehicles list
-        function renderVehicles() {
-            vehiclesContainer.innerHTML = '';
+        document.addEventListener('DOMContentLoaded', function() {
+            const userName = localStorage.getItem('userName');
+            const token = localStorage.getItem('token');
             
-            vehicles.forEach(vehicle => {
-                const vehicleCard = document.createElement('div');
-                vehicleCard.className = 'vehicle-card';
-                vehicleCard.innerHTML = `
-                    <div class="vehicle-id">${vehicle.id}</div>
-                    <span class="vehicle-status ${vehicle.status}">${vehicle.status === 'online' ? 'Online' : 'Offline'}</span>
-                    <button class="remove-vehicle-btn" data-id="${vehicle.id}">
-                        <i class="fas fa-trash"></i> Remove Vehicle
-                    </button>
-                `;
-                vehiclesContainer.appendChild(vehicleCard);
+            if (!token) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            document.getElementById('userName').textContent = `Hello, ${userName}`;
+            
+            document.getElementById('logoutButton').addEventListener('click', function() {
+                localStorage.removeItem('token');
+                localStorage.removeItem('userEmail');
+                localStorage.removeItem('userName');
+                window.location.href = '/login.html';
             });
 
-            // Add event listeners to remove buttons
-            document.querySelectorAll('.remove-vehicle-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const vehicleId = this.getAttribute('data-id');
-                    removeVehicle(vehicleId);
-                });
+            // Example of fetching protected data
+            fetch('/api/user', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Not authorized');
+                }
+                return response.json();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                localStorage.removeItem('token');
+                window.location.href = '/login.html';
             });
-        }
-
-        // Render profile info
-        function renderProfile() {
-            document.querySelector('.profile-name').textContent = userProfile.name;
-            document.querySelector('.profile-email').textContent = userProfile.email;
-            document.querySelector('.profile-image').src = userProfile.image;
-            
-            // Set form values
-            editNameInput.value = userProfile.name;
-            editEmailInput.value = userProfile.email;
-        }
-
-        // Add a new vehicle
-        function addVehicle(vehicleId) {
-            // In a real app, you would validate the ID and check for duplicates
-            vehicles.push({
-                id: vehicleId,
-                status: Math.random() > 0.5 ? "online" : "offline" // Random status for demo
-            });
-            renderVehicles();
-        }
-
-        // Remove a vehicle
-        function removeVehicle(vehicleId) {
-            if (confirm(`Are you sure you want to remove vehicle ${vehicleId}?`)) {
-                vehicles = vehicles.filter(v => v.id !== vehicleId);
-                renderVehicles();
-            }
-        }
-
-        // Modal handling
-        function showModal(modal) {
-            modal.style.display = 'flex';
-        }
-
-        function closeModals() {
-            addVehicleModal.style.display = 'none';
-            editProfileModal.style.display = 'none';
-        }
-
-        // Event listeners
-        addVehicleBtn.addEventListener('click', () => showModal(addVehicleModal));
-        editProfileBtn.addEventListener('click', () => showModal(editProfileModal));
-        
-        closeAddModal.addEventListener('click', closeModals);
-        cancelAddVehicle.addEventListener('click', closeModals);
-        closeEditModal.addEventListener('click', closeModals);
-        cancelEditProfile.addEventListener('click', closeModals);
-
-        // Close modal when clicking outside
-        window.addEventListener('click', (e) => {
-            if (e.target === addVehicleModal || e.target === editProfileModal) {
-                closeModals();
-            }
         });
-
-        // Form submissions
-        addVehicleForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const vehicleId = document.getElementById('vehicleId').value.trim();
-            
-            if (vehicleId) {
-                addVehicle(vehicleId);
-                document.getElementById('vehicleId').value = '';
-                closeModals();
-            }
-        });
-
-        editProfileForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const newName = editNameInput.value.trim();
-            const newEmail = editEmailInput.value.trim();
-            
-            if (newName && newEmail) {
-                userProfile.name = newName;
-                userProfile.email = newEmail;
-                renderProfile();
-                closeModals();
-            }
-        });
-
-        // Initialize the page
-        initPage();
     </script>
 </body>
 </html>
