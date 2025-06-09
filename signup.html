@@ -1,330 +1,339 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up | Your Website</title>
-    <style>
-        :root {
-            --dark-bg: #121212;
-            --darker-bg: #0a0a0a;
-            --card-bg: #1e1e1e;
-            --text-primary: #ffffff;
-            --text-secondary: #b0b0b0;
-            --accent: #ff6b35;
-            --accent-hover: #ff8c5a;
-            --border: #333333;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--dark-bg);
-            color: var(--text-primary);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-image: radial-gradient(circle at 10% 20%, var(--darker-bg) 0%, var(--dark-bg) 90%);
-        }
-
-        .signup-container {
-            background-color: var(--card-bg);
-            width: 100%;
-            max-width: 400px;
-            padding: 2.5rem;
-            border-radius: 10px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border);
-        }
-
-        .logo {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .logo h1 {
-            color: var(--accent);
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .logo p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        .signup-form .input-group {
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-
-        .signup-form label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        .signup-form input {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            background-color: var(--dark-bg);
-            border: 1px solid var(--border);
-            border-radius: 5px;
-            color: var(--text-primary);
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .signup-form input:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.2);
-        }
-
-        .signup-form button {
-            width: 100%;
-            padding: 0.8rem;
-            background-color: var(--accent);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin-top: 0.5rem;
-        }
-
-        .signup-form button:hover {
-            background-color: var(--accent-hover);
-        }
-
-        .error-message {
-            color: #ff4444;
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-            display: none;
-        }
-
-        .signup-form button.loading {
-            background-color: var(--accent-hover);
-            cursor: not-allowed;
-            position: relative;
-        }
-
-        .signup-form button.loading::after {
-            content: "";
-            width: 20px;
-            height: 20px;
-            border: 2px solid #ffffff;
-            border-top: 2px solid transparent;
-            border-radius: 50%;
-            position: absolute;
-            right: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: translateY(-50%) rotate(0deg); }
-            100% { transform: translateY(-50%) rotate(360deg); }
-        }
-
-        .login-link {
-            text-align: center;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-top: 1.5rem;
-        }
-
-        .login-link a {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
-        }
-
-        .login-link a:hover {
-            color: var(--accent-hover);
-        }
-
-        @media (max-width: 480px) {
-            .signup-container {
-                padding: 1.5rem;
-                margin: 0 1rem;
-            }
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sign Up | Your Website</title>
+<style>
+  /* Your existing styles here (unchanged except for minor additions) */
+  :root {
+    --dark-bg: #121212;
+    --darker-bg: #0a0a0a;
+    --card-bg: #1e1e1e;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --accent: #ff6b35;
+    --accent-hover: #ff8c5a;
+    --border: #333333;
+  }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  body {
+    background-color: var(--dark-bg);
+    color: var(--text-primary);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: radial-gradient(circle at 10% 20%, var(--darker-bg) 0%, var(--dark-bg) 90%);
+  }
+  .signup-container {
+    background-color: var(--card-bg);
+    width: 100%;
+    max-width: 400px;
+    padding: 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border);
+  }
+  .logo {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .logo h1 {
+    color: var(--accent);
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  .logo p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+  .signup-form .input-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  .signup-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+  .signup-form input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background-color: var(--dark-bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  .signup-form input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.2);
+  }
+  .signup-form button {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 0.5rem;
+  }
+  .signup-form button:hover {
+    background-color: var(--accent-hover);
+  }
+  .error-message {
+    color: #ff4444;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    display: none;
+  }
+  .signup-form button.loading {
+    background-color: var(--accent-hover);
+    cursor: not-allowed;
+    position: relative;
+  }
+  .signup-form button.loading::after {
+    content: "";
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ffffff;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin {
+    0% { transform: translateY(-50%) rotate(0deg); }
+    100% { transform: translateY(-50%) rotate(360deg); }
+  }
+  .login-link {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 1.5rem;
+  }
+  .login-link a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+  .login-link a:hover {
+    color: var(--accent-hover);
+  }
+  .show-password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 35px;
+    color: var(--accent);
+    cursor: pointer;
+    user-select: none;
+    font-size: 0.9rem;
+  }
+  @media (max-width: 480px) {
+    .signup-container {
+      padding: 1.5rem;
+      margin: 0 1rem;
+    }
+  }
+  .success-message {
+    color: #4BB543;
+    font-size: 1rem;
+    margin-top: 1rem;
+    text-align: center;
+  }
+</style>
 </head>
 <body>
-    <div class="signup-container">
-        <div class="logo">
-            <h1><img src="logo/logo.png" alt="" class="img-fluid" style="width: 200px; height: auto;"></h1>
-            <p>Create your account</p>
-        </div>
+<div class="signup-container">
+  <div class="logo">
+    <h1><img src="logo/logo.png" alt="Logo" class="img-fluid" style="width: 200px; height: auto;"></h1>
+    <p>Create your account and start your journey.</p>
+  </div>
 
-        <form class="signup-form" id="signupForm">
-            <div class="input-group">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
-                <div class="error-message" id="nameError"></div>
-            </div>
-
-            <div class="input-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="Enter your email" required>
-                <div class="error-message" id="emailError"></div>
-            </div>
-
-            <div class="input-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password" required>
-                <div class="error-message" id="passwordError"></div>
-            </div>
-
-            <div class="input-group">
-                <label for="confirmPassword">Confirm Password</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
-                <div class="error-message" id="confirmPasswordError"></div>
-            </div>
-
-            <button type="submit" id="signupButton">Sign Up</button>
-            <div class="error-message" id="generalError"></div>
-
-            <div class="login-link">
-                Already have an account? <a href="login.html">Login</a>
-            </div>
-        </form>
+  <form class="signup-form" id="signupForm" autocomplete="off">
+    <div class="input-group">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" placeholder="Enter your full name" required />
+      <div class="error-message" id="nameError"></div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const signupForm = document.getElementById('signupForm');
-            const signupButton = document.getElementById('signupButton');
-            const nameInput = document.getElementById('name');
-            const emailInput = document.getElementById('email');
-            const passwordInput = document.getElementById('password');
-            const confirmPasswordInput = document.getElementById('confirmPassword');
-            const nameError = document.getElementById('nameError');
-            const emailError = document.getElementById('emailError');
-            const passwordError = document.getElementById('passwordError');
-            const confirmPasswordError = document.getElementById('confirmPasswordError');
-            const generalError = document.getElementById('generalError');
+    <div class="input-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="Enter your email" required />
+      <div class="error-message" id="emailError"></div>
+    </div>
 
-            // Function to show error message
-            function showError(element, message) {
-                element.textContent = message;
-                element.style.display = 'block';
-            }
+    <div class="input-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Create a password" required minlength="6" />
+      <span class="show-password-toggle" id="togglePassword">Show</span>
+      <div class="error-message" id="passwordError"></div>
+    </div>
 
-            // Function to hide error message
-            function hideError(element) {
-                element.textContent = '';
-                element.style.display = 'none';
-            }
+    <div class="input-group">
+      <label for="confirmPassword">Confirm Password</label>
+      <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required minlength="6" />
+      <span class="show-password-toggle" id="toggleConfirmPassword">Show</span>
+      <div class="error-message" id="confirmPasswordError"></div>
+    </div>
 
-            // Function to validate email
-            function validateEmail(email) {
-                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return re.test(email);
-            }
+    <button type="submit" id="signupButton">Sign Up</button>
+    <div class="error-message" id="generalError"></div>
+    <div class="success-message" id="successMessage" style="display:none;"></div>
+  </form>
 
-            // Function to handle form submission
-            async function handleSubmit(e) {
-                e.preventDefault();
-                
-                // Reset error messages
-                hideError(nameError);
-                hideError(emailError);
-                hideError(passwordError);
-                hideError(confirmPasswordError);
-                hideError(generalError);
+  <div class="login-link">
+    Already have an account? <a href="login.html">Login</a>
+  </div>
+</div>
 
-                // Get form values
-                const name = nameInput.value.trim();
-                const email = emailInput.value.trim();
-                const password = passwordInput.value.trim();
-                const confirmPassword = confirmPasswordInput.value.trim();
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAiK5A9lekoZcpJufEIYtTn1NkFBKRA7_8",
+    authDomain: "apex-motion-2b186.firebaseapp.com",
+    projectId: "apex-motion-2b186",
+    storageBucket: "apex-motion-2b186.firebasestorage.app",
+    messagingSenderId: "528143358693",
+    appId: "1:528143358693:web:b0dde627e2c6f27481920c",
+    measurementId: "G-MJH2MJ8VZ3"
+  };
 
-                // Validate name
-                if (name.length < 2) {
-                    showError(nameError, 'Name must be at least 2 characters long');
-                    return;
-                }
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
 
-                // Validate email
-                if (!validateEmail(email)) {
-                    showError(emailError, 'Please enter a valid email address');
-                    return;
-                }
+  const signupForm = document.getElementById('signupForm');
+  const signupButton = document.getElementById('signupButton');
 
-                // Validate password
-                if (password.length < 6) {
-                    showError(passwordError, 'Password must be at least 6 characters long');
-                    return;
-                }
+  const nameInput = document.getElementById('name');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const confirmPasswordInput = document.getElementById('confirmPassword');
 
-                // Validate password confirmation
-                if (password !== confirmPassword) {
-                    showError(confirmPasswordError, 'Passwords do not match');
-                    return;
-                }
+  const nameError = document.getElementById('nameError');
+  const emailError = document.getElementById('emailError');
+  const passwordError = document.getElementById('passwordError');
+  const confirmPasswordError = document.getElementById('confirmPasswordError');
+  const generalError = document.getElementById('generalError');
+  const successMessage = document.getElementById('successMessage');
 
-                // Show loading state
-                signupButton.classList.add('loading');
-                signupButton.disabled = true;
+  // Toggle show/hide password
+  document.getElementById('togglePassword').addEventListener('click', () => {
+    const type = passwordInput.type === 'password' ? 'text' : 'password';
+    passwordInput.type = type;
+    document.getElementById('togglePassword').textContent = type === 'password' ? 'Show' : 'Hide';
+  });
 
-                try {
-                    // Use the correct API endpoint
-                    const response = await fetch('/api/auth/register', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ name, email, password })
-                    });
+  document.getElementById('toggleConfirmPassword').addEventListener('click', () => {
+    const type = confirmPasswordInput.type === 'password' ? 'text' : 'password';
+    confirmPasswordInput.type = type;
+    document.getElementById('toggleConfirmPassword').textContent = type === 'password' ? 'Show' : 'Hide';
+  });
 
-                    const data = await response.json();
+  // Form validation and signup logic
+  signupForm.addEventListener('submit', function (e) {
+    e.preventDefault();
 
-                    if (response.ok) {
-                        // Store the token and user data
-                        if (data.token) {
-                            localStorage.setItem('token', data.token);
-                            localStorage.setItem('userEmail', data.user.email);
-                            localStorage.setItem('userName', data.user.name);
-                        }
-                        // Redirect to dashboard
-                        window.location.href = '/dashboard.html';
-                    } else {
-                        showError(generalError, data.message || 'Signup failed. Please try again.');
-                    }
-                } catch (error) {
-                    console.error('Signup error:', error);
-                    showError(generalError, 'An error occurred. Please try again later.');
-                } finally {
-                    // Remove loading state
-                    signupButton.classList.remove('loading');
-                    signupButton.disabled = false;
-                }
-            }
+    // Reset error messages
+    nameError.style.display = 'none';
+    emailError.style.display = 'none';
+    passwordError.style.display = 'none';
+    confirmPasswordError.style.display = 'none';
+    generalError.style.display = 'none';
+    successMessage.style.display = 'none';
 
-            // Add form submit event listener
-            signupForm.addEventListener('submit', handleSubmit);
+    let valid = true;
 
-            // Add input event listeners for real-time validation
-            nameInput.addEventListener('input', () => hideError(nameError));
-            emailInput.addEventListener('input', () => hideError(emailError));
-            passwordInput.addEventListener('input', () => hideError(passwordError));
-            confirmPasswordInput.addEventListener('input', () => hideError(confirmPasswordError));
+    // Validate name
+    if (nameInput.value.trim().length < 2) {
+      nameError.textContent = 'Please enter your full name.';
+      nameError.style.display = 'block';
+      valid = false;
+    }
+
+    // Validate email
+    if (!emailInput.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      emailError.textContent = 'Please enter a valid email address.';
+      emailError.style.display = 'block';
+      valid = false;
+    }
+
+    // Validate password
+    if (passwordInput.value.length < 6) {
+      passwordError.textContent = 'Password must be at least 6 characters.';
+      passwordError.style.display = 'block';
+      valid = false;
+    }
+
+    // Validate confirm password
+    if (confirmPasswordInput.value !== passwordInput.value) {
+      confirmPasswordError.textContent = 'Passwords do not match.';
+      confirmPasswordError.style.display = 'block';
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    // Show loading state
+    signupButton.classList.add('loading');
+    signupButton.disabled = true;
+
+    // Firebase signup
+    auth.createUserWithEmailAndPassword(emailInput.value, passwordInput.value)
+      .then((userCredential) => {
+        // Update display name
+        return userCredential.user.updateProfile({
+          displayName: nameInput.value
         });
-    </script>
+      })
+      .then(() => {
+        successMessage.textContent = 'Account created successfully! Redirecting...';
+        successMessage.style.display = 'block';
+        signupForm.reset();
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 2000);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessageText = error.message;
+        if (errorCode === 'auth/email-already-in-use') {
+          emailError.textContent = 'Email is already in use.';
+          emailError.style.display = 'block';
+        } else if (errorCode === 'auth/invalid-email') {
+          emailError.textContent = 'Invalid email address.';
+          emailError.style.display = 'block';
+        } else if (errorCode === 'auth/weak-password') {
+          passwordError.textContent = 'Password is too weak.';
+          passwordError.style.display = 'block';
+        } else {
+          generalError.textContent = errorMessageText;
+          generalError.style.display = 'block';
+        }
+      })
+      .finally(() => {
+        signupButton.classList.remove('loading');
+        signupButton.disabled = false;
+      });
+  });
+</script>
 </body>
 </html>

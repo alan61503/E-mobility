@@ -1,93 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #ddd;
-        }
-        .user-info {
-            display: flex;
-            align-items: center;
-        }
-        .logout-btn {
-            background: #ff6b35;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Functional E-Mobility Dashboard</title>
+  <style>
+    /* -- (Same styling as before, but minimized here for brevity) -- */
+    body, html {
+      margin:0; padding:0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background:#121212; color:#e0e0e0; height:100%;
+    }
+    .sidebar {
+      position: fixed; left: 0; top: 0; bottom: 0;
+      width: 260px; background: #1e1e1e; padding: 20px 0;
+      display: flex; flex-direction: column; transition: width 0.3s ease;
+      border-right: 1px solid #333; z-index: 1000;
+    }
+    .sidebar.collapsed { width: 70px; }
+    .sidebar .logo {
+      color: #ff6b35; font-weight: 700; font-size: 1.5rem;
+      text-align: center; margin-bottom: 30px; letter-spacing: 1.5px;
+      user-select:none;
+    }
+    .sidebar nav a {
+      display: flex; align-items: center;
+      color: #bbb; padding: 12px 30px;
+      text-decoration: none; font-weight: 600;
+      border-left: 4px solid transparent;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .sidebar nav a:hover, .sidebar nav a.active {
+      color: #ff6b35; background-color: #2e2e2e;
+      border-left: 4px solid #ff6b35;
+    }
+    .sidebar nav a i {
+      margin-right: 12px; font-size: 1.2rem; width: 20px; text-align: center;
+    }
+    .main-content {
+      margin-left: 260px; padding: 30px 40px;
+      transition: margin-left 0.3s ease;
+    }
+    .sidebar.collapsed ~ .main-content {
+      margin-left: 70px; padding: 30px 20px;
+    }
+    .header {
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid #333; padding-bottom: 15px; margin-bottom: 30px;
+    }
+    .header h1 {
+      margin: 0; font-weight: 700; font-size: 1.8rem; color: #ff6b35;
+    }
+    .user-profile {
+      position: relative; cursor: pointer;
+      display: flex; align-items: center; gap: 12px; user-select: none;
+    }
+    .user-profile img {
+      width: 36px; height: 36px; border-radius: 50%;
+      object-fit: cover; border: 2px solid #ff6b35;
+    }
+    .user-profile span {
+      font-weight: 600; color: #fff; white-space: nowrap;
+    }
+    .dropdown-menu {
+      position: absolute; right: 0; top: 48px;
+      background: #1e1e1e; border: 1px solid #333; border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.7);
+      display: none; min-width: 150px; z-index: 10;
+    }
+    .dropdown-menu.show { display: block; }
+    .dropdown-menu button {
+      width: 100%; background: none; border: none;
+      padding: 12px 20px; color: #ff6b35; font-weight: 700;
+      cursor: pointer; border-radius: 8px;
+      transition: background-color 0.2s ease;
+    }
+    .dropdown-menu button:hover {
+      background-color: #ff6b35; color: #121212;
+    }
+    .cards {
+      display: flex; gap: 24px; flex-wrap: wrap;
+    }
+    .card {
+      background-color: #1f1f1f; padding: 20px; border-radius: 12px;
+      flex: 1 1 250px; min-width: 250px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.7);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(255,107,53,0.5);
+    }
+    .card h2 {
+      margin-top: 0; font-size: 1.4rem; color: #ff6b35; margin-bottom: 12px;
+    }
+    .card p {
+      font-size: 1.1rem; color: #ddd; margin: 0;
+    }
+    .vehicle-details {
+      margin-top: 40px; background-color: #222; padding: 25px;
+      border-radius: 12px; border: 1px solid #333;
+      box-shadow: inset 0 0 8px rgba(255,107,53,0.15);
+    }
+    .vehicle-details h3 {
+      margin-top: 0; margin-bottom: 20px; color: #ff6b35; font-weight: 700;
+    }
+    .vehicle-info-list {
+      display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+      gap: 20px; color: #ccc;
+    }
+    .vehicle-info-item {
+      background-color: #2b2b2b; padding: 15px 20px; border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.8);
+      transition: background-color 0.3s ease;
+    }
+    .vehicle-info-item:hover {
+      background-color: #333;
+    }
+    .vehicle-info-item h4 {
+      margin: 0 0 8px 0; color: #ff6b35; font-weight: 600;
+    }
+    .toggle-btn {
+      position: fixed; top: 20px; left: 270px;
+      background-color: #ff6b35; border: none; border-radius: 50%;
+      width: 36px; height: 36px; color: #121212; font-weight: 700;
+      cursor: pointer; box-shadow: 0 3px 8px rgba(255,107,53,0.6);
+      transition: left 0.3s ease; z-index: 1100;
+    }
+    .sidebar.collapsed + .toggle-btn {
+      left: 80px;
+    }
+    .toggle-btn:hover {
+      background-color: #ff8c42;
+    }
+    .toast {
+      position: fixed; bottom: 20px; right: 20px;
+      background-color: #ff6b35; color: #121212;
+      padding: 14px 22px; border-radius: 8px;
+      font-weight: 700; opacity: 0; pointer-events: none;
+      transform: translateY(20px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      box-shadow: 0 4px 10px rgba(255,107,53,0.6);
+      z-index: 1200;
+    }
+    .toast.show {
+      opacity: 1; pointer-events: auto; transform: translateY(0);
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Dashboard</h1>
-            <div class="user-info">
-                <span id="userName"></span>
-                <button class="logout-btn" id="logoutButton">Logout</button>
-            </div>
+  <div class="sidebar" id="sidebar">
+    <div class="logo">E-MOBILITY</div>
+    <nav>
+      <a href="#" class="active"><i>🏠</i> <span class="nav-text">Dashboard</span></a>
+      <a href="#"><i>🚗</i> <span class="nav-text">Vehicles</span></a>
+      <a href="#"><i>⚡</i> <span class="nav-text">Charging</span></a>
+      <a href="#"><i>📊</i> <span class="nav-text">Analytics</span></a>
+      <a href="#"><i>⚙️</i> <span class="nav-text">Settings</span></a>
+    </nav>
+  </div>
+
+  <button class="toggle-btn" id="toggleBtn" title="Toggle Sidebar">☰</button>
+
+  <div class="main-content" id="mainContent">
+    <header class="header">
+      <h1>Dashboard</h1>
+      <div class="user-profile" id="userProfile">
+        <img src="https://i.pravatar.cc/36" alt="User Avatar" />
+        <span>John Doe</span>
+        <div class="dropdown-menu" id="dropdownMenu">
+          <button id="logoutBtn">Logout</button>
         </div>
-        <div class="content">
-            <p>Welcome to your dashboard!</p>
-        </div>
-    </div>
+      </div>
+    </header>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const userName = localStorage.getItem('userName');
-            const token = localStorage.getItem('token');
-            
-            if (!token) {
-                window.location.href = '/login.html';
-                return;
-            }
+    <section class="cards" id="statsCards">
+      <!-- Dynamic cards inserted here -->
+    </section>
 
-            document.getElementById('userName').textContent = `Hello, ${userName}`;
-            
-            document.getElementById('logoutButton').addEventListener('click', function() {
-                localStorage.removeItem('token');
-                localStorage.removeItem('userEmail');
-                localStorage.removeItem('userName');
-                window.location.href = '/login.html';
-            });
+    <section class="vehicle-details" id="vehicleDetails">
+      <h3>Vehicle Details</h3>
+      <div class="vehicle-info-list" id="vehicleInfoList">
+        <!-- Dynamic vehicle info -->
+      </div>
+    </section>
+  </div>
 
-            // Example of fetching protected data
-            fetch('/api/user', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Not authorized');
-                }
-                return response.json();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                localStorage.removeItem('token');
-                window.location.href = '/login.html';
-            });
-        });
-    </script>
+  <div class="toast" id="toast">Logged out successfully!</div>
+
+  <script>
+    
+    const userProfile = document.getElementById('userProfile');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const toast = document.getElementById('toast');
+    const statsCards = document.getElementById('statsCards');
+    const vehicleInfoList = document.getElementById('vehicleInfoList');
+
+    const sidebar = document.getElementById('sidebar');
+  const toggleBtn = document.getElementById('toggleBtn');
+
+  toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('collapsed');
+    // Toggle sidebar collapse
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+    });
+
+    // Toggle user dropdown menu
+    userProfile.addEventListener('click', () => {
+      dropdownMenu.classList.toggle('show');
+    });
+
+    // Click outside dropdown closes it
+    document.addEventListener('click', (e) => {
+      if (!userProfile.contains(e.target)) {
+        dropdownMenu.classList.remove('show');
+      }
+    });
+
+    // Show toast helper function
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // Simulate logout action
+    logoutBtn.addEventListener('click', () => {
+      dropdownMenu.classList.remove('show');
+      showToast('Logged out successfully!');
+      // Here, you can add your real logout logic, like clearing tokens or redirecting.
+      // Example: window.location.href = '/login';
+    });
+
+    // Sample data for dashboard stats
+    const statsData = [
+      { title: "Battery Status", value: "85%", icon: "🔋" },
+      { title: "Total Trips", value: "124", icon: "🛣️" },
+      { title: "Range Left", value: "210 km", icon: "📍" },
+      { title: "Charging Sessions", value: "15", icon: "⚡" },
+    ];
+
+    // Render stats cards dynamically
+    function renderStats() {
+      statsCards.innerHTML = '';
+      statsData.forEach(stat => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <h2>${stat.icon} ${stat.title}</h2>
+          <p>${stat.value}</p>
+        `;
+        statsCards.appendChild(card);
+      });
+    }
+
+    // Sample vehicle details data
+    const vehicleDetails = {
+      "Make": "Tesla",
+      "Model": "Model 3",
+      "Year": "2023",
+      "Battery Capacity": "82 kWh",
+      "Range": "350 km",
+      "Charging Status": "80% - Charging",
+      "Last Service": "2025-05-20",
+      "VIN": "5YJ3E1EA7LF000000"
+    };
+
+    // Render vehicle details dynamically
+    function renderVehicleDetails() {
+      vehicleInfoList.innerHTML = '';
+      for (const [key, value] of Object.entries(vehicleDetails)) {
+        const item = document.createElement('div');
+        item.className = 'vehicle-info-item';
+        item.innerHTML = `<h4>${key}</h4><p>${value}</p>`;
+        vehicleInfoList.appendChild(item);
+      }
+    }
+
+    // Initialize dashboard content
+    renderStats();
+    renderVehicleDetails();
+  </script>
 </body>
 </html>
