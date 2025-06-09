@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CAD Model Viewer</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #121212;
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+    }
+
+    #header {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 8px 16px;
+      background: rgba(30, 30, 30, 0.9);
+      color: #ff8800;
+      border-radius: 5px;
+      font-weight: bold;
+      z-index: 10;
+      box-shadow: 0 0 8px #ff880055;
+    }
+  </style>
+</head>
+<body>
+  <div id="header">Embedded CAD Model Viewer</div>
+
+  <script type="module">
+    import * as THREE from 'https://cdn.skypack.dev/three@0.160.1';
+    import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.160.1/examples/jsm/loaders/GLTFLoader.js';
+    import { OrbitControls } from 'https://cdn.skypack.dev/three@0.160.1/examples/jsm/controls/OrbitControls.js';
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color('#121212');
+
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 1.5, 3);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+
+    const light = new THREE.HemisphereLight(0xffffff, 0x444444, 1.2);
+    light.position.set(0, 20, 0);
+    scene.add(light);
+
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // 👇 Paste ONLY base64 string here (NO data URL prefix)
+    const base64Model = `PASTE-YOUR-BASE64-GLB-HERE`;
+
+    const binary = atob(base64Model);
+    const len = binary.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+
+    const loader = new GLTFLoader();
+    loader.parse(bytes.buffer, '', (gltf) => {
+      scene.add(gltf.scene);
+    }, (error) => {
+      console.error('Failed to load model:', error);
+    });
+  </script>
+</body>
+</html>
