@@ -189,7 +189,8 @@
   <div class="toast" id="toast">Logged out successfully!</div>
 
   <script>
-    
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleBtn');
     const userProfile = document.getElementById('userProfile');
     const dropdownMenu = document.getElementById('dropdownMenu');
     const logoutBtn = document.getElementById('logoutBtn');
@@ -197,11 +198,6 @@
     const statsCards = document.getElementById('statsCards');
     const vehicleInfoList = document.getElementById('vehicleInfoList');
 
-    const sidebar = document.getElementById('sidebar');
-  const toggleBtn = document.getElementById('toggleBtn');
-
-  toggleBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('collapsed');
     // Toggle sidebar collapse
     toggleBtn.addEventListener('click', () => {
       sidebar.classList.toggle('collapsed');
