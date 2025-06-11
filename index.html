@@ -87,10 +87,24 @@
 
   .typing-demo {
     font-family: monospace;
-    font-size: 4em;
+    font-size: 6vw;          /* ✅ Responsive font size */
+    max-width: 90vw;
     border-right: 3px solid;
     white-space: nowrap;
     overflow: hidden;
+  }
+
+  /* Optional fine-tuning for very large and small screens */
+  @media (min-width: 1200px) {
+    .typing-demo {
+      font-size: 4em;        /* Cap max size for large screens */
+    }
+  }
+
+  @media (max-width: 480px) {
+    .typing-demo {
+      font-size: 8vw;        /* Slightly bigger on very small phones */
+    }
   }
 </style>
 
@@ -143,6 +157,7 @@
 
   loop();
 </script>
+
 <br>
         <p data-aos="fade-up" data-aos-delay="200" text-align="justify">At Apex Motion, we are reimagining how vehicles interact, operate, and evolve. With cutting-edge technologies in digital twin modeling, augmented diagnostics, and immersive simulations, we empower mobility systems that are safer, smarter, and more sustainable.
 Explore the future — now.
@@ -399,6 +414,11 @@ To become a global leader in future mobility systems and simulation-driven trans
 
   
     <section class="team-section">
+
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Team</h2>
+        <p>Who We Are </p>
+      </div><!-- End about Title -->
   <div class="team-carousel">
     <div class="team-track">
       <!-- Team Member 1 -->
@@ -480,7 +500,7 @@ To become a global leader in future mobility systems and simulation-driven trans
     track.style.transform = `translateX(-${currentIndex * memberWidth}px)`;
   }
 
-  let carouselInterval = setInterval(slideCarousel, 5000);
+  let carouselInterval = setInterval(slideCarousel, 2000);
 
   window.addEventListener('resize', () => {
     clearInterval(carouselInterval);
