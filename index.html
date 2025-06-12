@@ -63,114 +63,129 @@
   <main class="main">
 
     <!-- Hero Section -->
-    <section id="hero" class="hero section dark-background">
+   <!-- Hero Section -->
+<section id="hero" class="hero section dark-background">
 
-      <img src="pictures/car.png" alt="" data-aos="fade-in">
+  <img src="pictures/car.png" alt="" data-aos="fade-in">
 
-      <div class="container d-flex flex-column align-items-center">
+  <div class="container d-flex flex-column align-items-center text-center">
 
-       <class="type" data-aos="fade-up" data-aos-delay="100">
-        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet">
+    <!-- Fixed "Beyond" with Typewriter -->
+    <div class="typewriter-wrapper" data-aos="fade-up" data-aos-delay="100">
+      <span class="fixed-word">Beyond&nbsp;</span><span class="changing-word" id="typewriter"></span>
+    </div>
 
-<div class="wrapper">
-  <div class="typing-demo" id="typewriter"></div>
-</div>
+    <!-- Paragraph -->
+    <p data-aos="fade-up" data-aos-delay="200">
+      At Apex Motion, we are reimagining how vehicles interact, operate, and evolve. With cutting-edge technologies in digital twin modeling, augmented diagnostics, and immersive simulations, we empower mobility systems that are safer, smarter, and more sustainable.
+      <br><br>
+      Explore the future — now.
+    </p>
+
+    <!-- CTA Button -->
+    <div class="cta-container">
+      <a href="vandi.html" class="cta-button">Vehicle info</a>
+    </div>
+  </div>
+</section>
+
 
 <style>
-  .wrapper {
-    height: 10vh;
-    display: grid;
-    place-items: center;
-    background: #00000000;
-    color: #fffefc; /* orange accent */
-  }
-
-  .typing-demo {
+  .typewriter-wrapper {
     font-family: monospace;
-    font-size: 6vw;          /* ✅ Responsive font size */
-    max-width: 90vw;
-    border-right: 3px solid;
+    font-size: 6vw;
+    display: flex;
+    flex-wrap: nowrap;
     white-space: nowrap;
     overflow: hidden;
+    color: #fffefc;
+    line-height: 1.2;
+    margin-bottom: 20px;
   }
 
-  /* Optional fine-tuning for very large and small screens */
+  .fixed-word {
+    flex-shrink: 0;
+  }
+
+  .changing-word {
+    border-right: 3px solid #ff6a00;
+    animation: blinkCursor 0.75s step-end infinite;
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  @keyframes blinkCursor {
+    0%, 100% { border-color: #ff6a00; }
+    50% { border-color: transparent; }
+  }
+
+  p {
+    text-align: justify;
+    font-size: 1.1rem;
+    color: #fffefc;
+    max-width: 800px;
+  }
+
   @media (min-width: 1200px) {
-    .typing-demo {
-      font-size: 4em;        /* Cap max size for large screens */
+    .typewriter-wrapper {
+      font-size: 4em;
     }
   }
 
   @media (max-width: 480px) {
-    .typing-demo {
-      font-size: 8vw;        /* Slightly bigger on very small phones */
+    .typewriter-wrapper {
+      font-size: 8vw;
     }
   }
 </style>
+
 
 <script>
-  const phrases = ["Beyond Driving.", "Beyond Mobility. ", "Beyond Reality."];
+  const words = ["Driving.", "Mobility.", "Reality."];
   const el = document.getElementById("typewriter");
-  let i = 0;
-  let j = 0;
-  let currentPhrase = [];
+
+  let wordIndex = 0;
+  let letterIndex = 0;
   let isDeleting = false;
-  let isEnd = false;
+  let currentWord = [];
 
-  function loop() {
-    isEnd = false;
-    el.innerHTML = currentPhrase.join("");
+  function type() {
+    const fullWord = words[wordIndex];
 
-    if (i < phrases.length) {
-      if (!isDeleting && j <= phrases[i].length) {
-        currentPhrase.push(phrases[i][j]);
-        j++;
-        el.innerHTML = currentPhrase.join("");
-      }
+    if (!isDeleting) {
+      currentWord.push(fullWord[letterIndex]);
+      letterIndex++;
+      el.textContent = currentWord.join("");
 
-      if (isDeleting && j <= phrases[i].length) {
-        currentPhrase.pop();
-        j--;
-        el.innerHTML = currentPhrase.join("");
-      }
-
-      if (j === phrases[i].length) {
-        isEnd = true;
+      if (letterIndex === fullWord.length) {
         isDeleting = true;
+        setTimeout(type, 1000); return;
       }
+    } else {
+      currentWord.pop();
+      letterIndex--;
+      el.textContent = currentWord.join("");
 
-      if (isDeleting && j === 0) {
-        currentPhrase = [];
+      if (letterIndex === 0) {
         isDeleting = false;
-        i++;
-        if (i === phrases.length) {
-          i = 0;
-        }
+        wordIndex = (wordIndex + 1) % words.length;
       }
     }
 
-    const speedUp = Math.random() * (80 - 50) + 50;
-    const normalSpeed = Math.random() * (150 - 100) + 100;
-    const time = isEnd ? 1000 : isDeleting ? speedUp : normalSpeed;
-    setTimeout(loop, time);
+    const speed = isDeleting ? 50 : 120;
+    setTimeout(type, speed);
   }
 
-  loop();
+  type();
 </script>
 
-<br>
-        <p data-aos="fade-up" data-aos-delay="200" text-align="justify">At Apex Motion, we are reimagining how vehicles interact, operate, and evolve. With cutting-edge technologies in digital twin modeling, augmented diagnostics, and immersive simulations, we empower mobility systems that are safer, smarter, and more sustainable.
-Explore the future — now.
-</p>
-<style>
-  p {
-    text-align: justify;
-  }
-</style>
 
-<div class="cta-container">
-  <a href="vandi.html" class="cta-button">Vehicle info</a>
-</div>
+
+
+
+
+<br>
+ 
 <style>
 .cta-container {
   display: flex;
@@ -445,6 +460,7 @@ To become a global leader in future mobility systems and simulation-driven trans
 
   
     <section class="team-section">
+      <section id="team" class="team section">
 
       <div class="container section-title" data-aos="fade-up">
         <h2>Team</h2>
